@@ -1,8 +1,8 @@
 import React from 'react';
-
+import { Filter } from '../../App';
 interface Props {
-  filter: 'All' | 'Active' | 'Completed';
-  setFilter: (value: 'All' | 'Active' | 'Completed') => void;
+  filter: Filter;
+  setFilter: (filter: Filter) => void;
   activeCount: number;
   completedCount: number;
   isLoading: boolean;
@@ -26,7 +26,7 @@ export const Footer: React.FC<Props> = ({
         href="#/"
         className={`filter__link ${filter === 'All' ? 'selected' : ''}`}
         data-cy="FilterLinkAll"
-        onClick={() => setFilter('All')}
+        onClick={() => setFilter(Filter.All)}
       >
         All
       </a>
@@ -35,7 +35,7 @@ export const Footer: React.FC<Props> = ({
         href="#/active"
         className={`filter__link ${filter === 'Active' ? 'selected' : ''}`}
         data-cy="FilterLinkActive"
-        onClick={() => setFilter('Active')}
+        onClick={() => setFilter(Filter.Active)}
       >
         Active
       </a>
@@ -44,7 +44,7 @@ export const Footer: React.FC<Props> = ({
         href="#/completed"
         className={`filter__link ${filter === 'Completed' ? 'selected' : ''}`}
         data-cy="FilterLinkCompleted"
-        onClick={() => setFilter('Completed')}
+        onClick={() => setFilter(Filter.Completed)}
       >
         Completed
       </a>

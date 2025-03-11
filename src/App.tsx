@@ -7,9 +7,15 @@ import { Footer } from './components/Footer';
 import { Error } from './components/Error';
 import { UserWarning } from './UserWarning';
 
+export enum Filter {
+  All = 'All',
+  Active = 'Active',
+  Completed = 'Completed',
+}
+
 export const App: React.FC = () => {
   const [todos, setTodos] = useState<Todo[]>([]);
-  const [filter, setFilter] = useState<'All' | 'Active' | 'Completed'>('All');
+  const [filter, setFilter] = useState<Filter>(Filter.All);
   const [error, setError] = useState<string | null>(null);
   const [isLoading, setIsLoading] = useState(false);
 
@@ -19,6 +25,7 @@ export const App: React.FC = () => {
       setError(null);
       try {
         const data = await getTodos();
+
         setTodos(data);
       } catch (e) {
         setError('Unable to load todos');
@@ -32,8 +39,14 @@ export const App: React.FC = () => {
   }, []);
 
   const filteredTodos = todos.filter(todo => {
-    if (filter === 'Active') return !todo.completed;
-    if (filter === 'Completed') return todo.completed;
+    if (filter === Filter.Active) {
+      return !todo.completed;
+    }
+
+    if (filter === Filter.Completed) {
+      return todo.completed;
+    }
+
     return true;
   });
 
@@ -41,7 +54,9 @@ export const App: React.FC = () => {
     setTodos(prev => prev.filter(todo => !todo.completed));
   };
 
-  if (!USER_ID) return <UserWarning />;
+  if (!USER_ID) {
+    return <UserWarning />;
+  }
 
   return (
     <div className="todoapp">
